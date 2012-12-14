@@ -6,55 +6,67 @@ from tugboat.config import args
 
 log = logging.getLogger(__name__)
 
-def _log_command_output(output, error):
-    """Log stdout and stderr from Paramiko.SSHClient.exec_command()."""
+class PuppetUpdater(object):
     
-    stdout = output.read()
-    stderr = error.read()
-    log.info(stdout)
-    if stderr:
-        log.error(stderr)
+    def __init__(self):
+        self.ssh = paramiko.SSHClient()
+        self.ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    
+    def _log_command_output(self, output, error):
+        """Log stdout and stderr from Paramiko.SSHClient.exec_command()."""
+    
+        stdout = output.read()
+        stderr = error.read()
+        log.info(stdout)
+        if stderr:
+            log.error(stderr)
 
-def _shell_in(host, username, keyfile):
-    """SSH into the puppetmaster to do your stuff."""
+    def _shell_in(self, host, username, keyfile):
+        """SSH into the puppetmaster to do your stuff."""
     
-    ssh = paramiko.SSHClient()
-    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(host, username=username, keyfile=keyfile)
+        # ok what are you going to do about this? need to get these to the right place dude
+        self.ssh.connect(host, username=username, keyfile=keyfile)
+        
+        # alternate for key or password login
+        # ...
 
-def _git_pull(directory, branch='master'):
-    """Pull the latest from a git repository."""
+    def _git_pull(self, directory, branch='master'):
+        """Pull the latest from a git repository."""
     
-    cd = "cd " + directory
-    go_to_branch = "git checkout " + branch
-    pull = "sudo git pull"
+        cd = "cd " + directory
+        go_to_branch = "git checkout " + branch
+        pull = "sudo git pull"
 
-    stdin, stdout, stderr = self.ssh.exec_command(cd)
-    _log_command_output(stdout, stderr)
+        stdin, stdout, stderr = self.ssh.exec_command(cd)
+        _log_command_output(stdout, stderr)
     
-    stdin, stdout, stderr = self.ssh.exec_command(go_to_branch)
-    _log_command_output(stdout, stderr)
+        stdin, stdout, stderr = self.ssh.exec_command(go_to_branch)
+        _log_command_output(stdout, stderr)
     
-    stdin, stdout, stderr = self.ssh.exec_command(pull)
-    _log_command_output(stdout, stderr)
+        stdin, stdout, stderr = self.ssh.exec_command(pull)
+        _log_command_output(stdout, stderr)
 
-def update():
-    """Update each environment specified and each project specified in each environment."""
+    def update(self):
+        """Update each environment specified and each project specified in each environment."""
+        
+        host = config['puppetmaster']['server']
+        user = config['puppetmaster']['user']
+        key = config['puppetmaster']['key']
+        
+        try:
+            self._shell_in(host, user, key)
 
-    try:
-        _shell_in()
-
-        if args.manifests:
-            # Update site manifests if asked to
-            _git_pull(config['puppetmaster']['manifests'])
+            if args.manifests:
+                # Update site manifests if asked to
+                self._git_pull(config['puppetmaster']['manifests'])
     
-        # expect multiple projects in multiple envs or just one env
-        for environment in args.environments:
-            update_target = ['puppetmaster']['modulepath'] + '/' + environment
-            _git_pull(update_target)
-            for project in args.projects:
-                update_target += '/' + project
-                _git_pull(update_target)
+            # expect multiple projects in multiple envs or just one env
+            for environment in args.environments:
+                update_target = config['puppetmaster']['modulepath'] + '/' + environment
+                self._git_pull(update_target)
+                for project in args.projects:
+                    update_target += '/' + project
+                    self._git_pull(update_target)
     
-    finally:
-        ssh.close()
+        finally:
+            self.ssh.close()
