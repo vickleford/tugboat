@@ -24,7 +24,6 @@ class PuppetUpdater(object):
     def _shell_in(self, host, username, keyfile):
         """SSH into the puppetmaster to do your stuff."""
     
-        # ok what are you going to do about this? need to get these to the right place dude
         self.ssh.connect(host, username=username, keyfile=keyfile)
         
         # alternate for key or password login
@@ -34,7 +33,7 @@ class PuppetUpdater(object):
         """Pull the latest from a git repository."""
     
         cd = "cd " + directory
-        go_to_branch = "git checkout " + branch
+        go_to_branch = "sudo git checkout " + branch
         pull = "sudo git pull"
 
         stdin, stdout, stderr = self.ssh.exec_command(cd)
