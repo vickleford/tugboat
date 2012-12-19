@@ -56,6 +56,9 @@ class AgentUpdater(RemotePuppetUpdater):
             # just in case there's only one
             hosts = list(hosts.split(','))
             
+            if len(hosts) <= 0:
+                raise NoServersError("Didn't find any servers in {hosts}".format(hosts=hosts))
+            
             for host in hosts:
                 log.info("Starting update on {node} in {env}".format(node=host, env=environment))
                 try:
