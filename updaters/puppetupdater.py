@@ -31,6 +31,8 @@ class PuppetUpdater(RemotePuppetUpdater):
     def __init__(self, environments, projects = []):
         super(PuppetUpdater, self).__init__(environments)
         
+        self.projects = projects
+        
         self.log = logging.getLogger(self.__module__ + '.' + self.__class__.__name__)
             
     def _git_pull(self, directory, branch='master'):
