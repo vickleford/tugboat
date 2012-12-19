@@ -1,9 +1,11 @@
 import paramiko
 import logging
 
-from config import config, args
+from config import config
+
 
 log = logging.getLogger(__name__)
+
 
 class RemotePuppetUpdater(object):
     def __init__(self, environments):
