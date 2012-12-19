@@ -5,19 +5,11 @@ from config import config, args
 
 log = logging.getLogger(__name__)
 
-class NoEnvironmentsError(Exception):
-    pass
-
 class RemotePuppetUpdater(object):
-    def __init__(self):
+    def __init__(self, environments):
         self.ssh = paramiko.SSHClient()
         self.ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         
-        if args.environments:
-            self.environments = args.environments
-        else:
-            raise NoEnvironmentsError
-
     def _log_command_output(self, output, error):
         """Log stdout and stderr from Paramiko.SSHClient.exec_command()."""
 

@@ -10,8 +10,8 @@ if __name__ == "__main__":
                         format='%(asctime)s:%(levelname)s:%(name)s:%(message)s',
                         datefmt='%m/%d/%Y %I:%M:%S %p')
     log.info('Started tugboat')
-    puppetupdater = PuppetUpdater()
-    puppetupdater.update()
+    puppetupdater = PuppetUpdater(args.environments, args.projects)
+    puppetupdater.update(args.environments)
     
     agentupdater = AgentUpdater()
     agentupdater.update()

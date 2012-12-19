@@ -23,17 +23,10 @@ from config import config, args
 
 log = logging.getLogger(__name__)
 
-class NoServersError(Exception):
-    def __init__(self, value):
-        self.value = value
-        
-    def __str__(self):
-        return repr(self.value)
-
 class AgentUpdater(RemotePuppetUpdater):
     
-    def __init__(self):
-        super(AgentUpdater, self).__init__()
+    def __init__(self, environments):
+        super(AgentUpdater, self).__init__(environments)
         self.servers = []
     
     def _puppetd_t(self):
@@ -55,10 +48,7 @@ class AgentUpdater(RemotePuppetUpdater):
             
             # just in case there's only one
             hosts = list(hosts.split(','))
-            
-            if len(hosts) <= 0:
-                raise NoServersError("Didn't find any servers in {hosts}".format(hosts=hosts))
-            
+                        
             for host in hosts:
                 log.info("Starting update on {node} in {env}".format(node=host, env=environment))
                 try:

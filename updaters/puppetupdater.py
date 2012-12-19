@@ -25,14 +25,9 @@ log = logging.getLogger(__name__)
 
 class PuppetUpdater(RemotePuppetUpdater):
     
-    def __init__(self):
-        super(PuppetUpdater, self).__init__()
-        
-        if args.projects:
-            self.projects = args.projects
-        else:
-            self.projects = []
-    
+    def __init__(self, environments, projects = []):
+        super(PuppetUpdater, self).__init__(environments)
+            
     def _git_pull(self, directory, branch='master'):
         """Pull the latest from a git repository."""
     
