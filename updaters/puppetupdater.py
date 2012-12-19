@@ -10,8 +10,6 @@ Assumes user has NOPASSWD sudo to:
 
 TODO: 
 - add better error handling around the command executions
-- get environments and projects names by args instead of 
-    directly inspecting config and args?
 
 """
 
