@@ -30,6 +30,8 @@ class AgentUpdater(RemotePuppetUpdater):
     def __init__(self, environments):
         super(AgentUpdater, self).__init__(environments)
         self.servers = []
+        
+        self.log = logging.getLogger(self.__module__ + '.' + self.__class__.__name__)
     
     def _puppetd_t(self):
         """Invoke puppetd -t on the puppet agent."""
@@ -52,7 +54,7 @@ class AgentUpdater(RemotePuppetUpdater):
             hosts = list(hosts.split(','))
                         
             for host in hosts:
-                log.info("Starting update on {node} in {env}".format(node=host, env=environment))
+                self.log.info("Starting update on {node} in {env}".format(node=host, env=environment))
                 try:
                     self._shell_in(host, user, key)
                     self._puppetd_t()

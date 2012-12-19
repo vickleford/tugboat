@@ -30,6 +30,8 @@ class PuppetUpdater(RemotePuppetUpdater):
     
     def __init__(self, environments, projects = []):
         super(PuppetUpdater, self).__init__(environments)
+        
+        self.log = logging.getLogger(self.__module__ + '.' + self.__class__.__name__)
             
     def _git_pull(self, directory, branch='master'):
         """Pull the latest from a git repository."""
@@ -53,17 +55,17 @@ class PuppetUpdater(RemotePuppetUpdater):
 
             if args.manifests:
                 # Update site manifests if asked to
-                log.info("Updating site manifests on {pmaster}".format(pmaster = host))
+                self.log.info("Updating site manifests on {pmaster}".format(pmaster = host))
                 self._git_pull(config['puppetmaster']['manifests'])
     
             # expect multiple projects in multiple envs or just one env
             for environment in self.environments:
                 update_target = config['puppetmaster']['modulepath'] + '/' + environment
-                log.info("Updating environment in {env}".format(env=update_target))
+                self.log.info("Updating environment in {env}".format(env=update_target))
                 self._git_pull(update_target)
                 for project in self.projects:
                     update_target += '/' + project
-                    log.info("Updating project in {proj}".format(proj=update_target))
+                    self.log.info("Updating project in {proj}".format(proj=update_target))
                     self._git_pull(update_target)
     
         finally:
