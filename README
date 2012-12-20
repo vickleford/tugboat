@@ -27,3 +27,13 @@ For developers:
 Configuration
 -------------
 
+Tugboat is supplied with a sample INI configuration at tugboat/tugboat.cfg.
+
+Ideally, you want to set up a puppetmaster and specify more sections that match
+environment names set up on your puppetmaster. For example, if you have
+environments /etc/puppet/environments/prod, /etc/puppet/environments/staging,
+you want to set up a section for [prod] and [staging]. 
+
+If you have multiple puppetmasters you need to work with, such as a production
+and development puppetmaster, just add multiple configurations and invoke
+tugboat with the -f flag to specify what configuration file you want to use.
