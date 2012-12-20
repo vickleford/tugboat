@@ -1,7 +1,7 @@
 import logging
 from argparse import ArgumentParser
+from configobj import ConfigObj
 
-from config import config
 from updaters.agentupdater import AgentUpdater
 from updaters.puppetupdater import PuppetUpdater
 
@@ -17,14 +17,18 @@ def get_arguments():
     parser.add_argument('-f', '--config', default='tugboat.cfg', help='Use configuration file specified instead')
     parser.add_argument('-d', '--delay', default=5, type=int, help='Specify delay s seconds between updates to each host')
 
-    args = parser.parse_args()
+    return parser.parse_args()
+        
+def get_config(cmd_line_args):
+    """Load configuration file from command-line args or default tugboat.cfg."""
     
-    return args
+    return ConfigObj(cmd_line_args.config)
 
 def run():
     """Start tugboat."""
     
     args = get_arguments()
+    config = get_config(args)
     
     log = logging.getLogger(__name__)
     logging.basicConfig(filename='tugboat.log', level=logging.INFO,
