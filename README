@@ -10,19 +10,29 @@ Setup
 
 For sysadmins:
 
-    * step 1
+    * Install tugboat
+        python setup.py install
     
-    * step 2
+    * Configure tugboat (see Configuration below for multiple profiles)
+        vim tugboat/config.ini
+        
+    * Run tugboat
+        tugboat --environments [ ENVIRONMENTS ...] --projects [ PROJECTS ...] 
     
 For developers:
 
     * Clone the repository
         git@github.com:vickleford/tugboat.git
+        
+    * Create a virtualenv
+        virtualenv tugboat
+        cd tugboat
     
     * Set up the project in developer mode:
         python setup.py develop
         
     * Run tugboat
+        tugboat --environments [ ENVIRONMENTS ...] --projects [ PROJECTS ...] 
     
 Configuration
 -------------
