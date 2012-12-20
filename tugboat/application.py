@@ -37,7 +37,7 @@ def run():
     log.info('Started tugboat')
 
     puppetupdater = PuppetUpdater(args.environments, args.projects)
-    puppetupdater.update(args.environments)
+    puppetupdater.update()
 
     agentupdater = AgentUpdater()
     agentupdater.update()
