@@ -2,7 +2,7 @@ import os
 from setuptools import setup
 
 
-dependencies = [ 'paramiko', 'logging', 'argparse' ]
+dependencies = [ 'paramiko', 'logging', 'argparse', 'configobj' ]
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
