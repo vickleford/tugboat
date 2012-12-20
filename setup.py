@@ -18,4 +18,10 @@ setup(
     packages=['tugboat'],
     long_description=read('README'),
     classifiers=[],
+    
+    entry_points = {
+        'console_scripts': [
+            'tugboat = tugboat.application:run'
+        ]
+    },
 )
