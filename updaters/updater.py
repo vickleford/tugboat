@@ -1,23 +1,18 @@
 import paramiko
 import logging
 
-from config import config, args
+from config import config
 
-log = logging.getLogger(__name__)
-
-class NoEnvironmentsError(Exception):
-    pass
 
 class RemotePuppetUpdater(object):
-    def __init__(self):
+    def __init__(self, environments):
+        self.envionments = envionments
+        
         self.ssh = paramiko.SSHClient()
         self.ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         
-        if args.environments:
-            self.environments = args.environments
-        else:
-            raise NoEnvironmentsError
-
+        self.log = logging.getLogger(self.__module__ + '.' + self.__class__.__name__)
+        
     def _log_command_output(self, output, error):
         """Log stdout and stderr from Paramiko.SSHClient.exec_command()."""
 
@@ -26,9 +21,9 @@ class RemotePuppetUpdater(object):
 
         # don't log empty messages
         if stdout:
-            log.info(stdout)
+            self.log.info(stdout)
         if stderr:
-            log.error(stderr)
+            self.log.error(stderr)
 
     def _shell_in(self, host, username, keyfile):
         """SSH into the puppetmaster to do your stuff."""

@@ -9,8 +9,6 @@ Assumes user has NOPASSWD sudo to:
 
 TODO: 
 - add better error handling around the command executions
-- get environments and projects names by args instead of 
-    directly inspecting config and args?
 
 """
 
@@ -19,22 +17,19 @@ import paramiko
 import logging
 
 from updater import RemotePuppetUpdater
-from config import config, args
+from config import config
+
 
 log = logging.getLogger(__name__)
 
-class NoServersError(Exception):
-    def __init__(self, value):
-        self.value = value
-        
-    def __str__(self):
-        return repr(self.value)
 
 class AgentUpdater(RemotePuppetUpdater):
     
-    def __init__(self):
-        super(AgentUpdater, self).__init__()
+    def __init__(self, environments):
+        super(AgentUpdater, self).__init__(environments)
         self.servers = []
+        
+        self.log = logging.getLogger(self.__module__ + '.' + self.__class__.__name__)
     
     def _puppetd_t(self):
         """Invoke puppetd -t on the puppet agent."""
@@ -55,12 +50,9 @@ class AgentUpdater(RemotePuppetUpdater):
             
             # just in case there's only one
             hosts = list(hosts.split(','))
-            
-            if len(hosts) <= 0:
-                raise NoServersError("Didn't find any servers in {hosts}".format(hosts=hosts))
-            
+                        
             for host in hosts:
-                log.info("Starting update on {node} in {env}".format(node=host, env=environment))
+                self.log.info("Starting update on {node} in {env}".format(node=host, env=environment))
                 try:
                     self._shell_in(host, user, key)
                     self._puppetd_t()
