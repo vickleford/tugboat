@@ -1,21 +1,24 @@
 import logging
 
-from config import config, args
+from dynamics import args, config
 from updaters.agentupdater import AgentUpdater
 from updaters.puppetupdater import PuppetUpdater
 
 
-if __name__ == "__main__":
+def run():
+    """Start tugboat."""
+        
     log = logging.getLogger(__name__)
-    logging.basicConfig(filename='tugboat.log', level=logging.INFO,
+    logging.basicConfig(filename='tugboat/tugboat.log', level=logging.INFO,
                         format='%(asctime)s:%(levelname)s:%(name)s:%(message)s',
                         datefmt='%m/%d/%Y %I:%M:%S %p')
+                        
     log.info('Started tugboat')
-    
+
     puppetupdater = PuppetUpdater(args.environments, args.projects)
-    puppetupdater.update(args.environments)
-    
-    agentupdater = AgentUpdater()
+    puppetupdater.update()
+
+    agentupdater = AgentUpdater(args.environments)
     agentupdater.update()
-    
+
     log.info('Finished')

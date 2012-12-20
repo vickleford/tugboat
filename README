@@ -1,0 +1,49 @@
+Tugboat
+=======
+
+Tugboat is a continuous integration/continuous delivery tool to log into 
+puppetmasters and agents to run config updates after an automated deploy with
+another tool such as Flagship.
+
+Setup
+-----
+
+For sysadmins:
+
+    * Install tugboat
+        python setup.py install
+    
+    * Configure tugboat (see Configuration below for multiple profiles)
+        vim tugboat/config.ini
+        
+    * Run tugboat
+        tugboat --environments [ ENVIRONMENTS ...] --projects [ PROJECTS ...] 
+    
+For developers:
+
+    * Clone the repository
+        git@github.com:vickleford/tugboat.git
+        
+    * Create a virtualenv
+        virtualenv tugboat
+        cd tugboat
+    
+    * Set up the project in developer mode:
+        python setup.py develop
+        
+    * Run tugboat
+        tugboat --environments [ ENVIRONMENTS ...] --projects [ PROJECTS ...] 
+    
+Configuration
+-------------
+
+Tugboat is supplied with a sample INI configuration at tugboat/config.ini.
+
+Ideally, you want to set up a puppetmaster and specify more sections that match
+environment names set up on your puppetmaster. For example, if you have
+environments /etc/puppet/environments/prod, /etc/puppet/environments/staging,
+you want to set up a section for [prod] and [staging]. 
+
+If you have multiple puppetmasters you need to work with, such as a production
+and development puppetmaster, just add multiple configurations and invoke
+tugboat with the -f flag to specify what configuration file you want to use.

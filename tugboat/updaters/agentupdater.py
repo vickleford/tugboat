@@ -16,11 +16,8 @@ TODO:
 import paramiko
 import logging
 
+from tugboat.dynamics import config
 from updater import RemotePuppetUpdater
-from config import config
-
-
-log = logging.getLogger(__name__)
 
 
 class AgentUpdater(RemotePuppetUpdater):
