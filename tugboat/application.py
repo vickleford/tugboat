@@ -14,7 +14,7 @@ def get_arguments():
     parser.add_argument('-e', '--environments', nargs='+', help='Apply puppet updates to these environments')
     parser.add_argument('-p', '--projects', nargs='+', help='Apply puppet updates to these projects')
     parser.add_argument('-m', '--manifests', action='store_true', default=False, help='Apply updates to the puppet manifests directory')
-    parser.add_argument('-f', '--config', default='tugboat.cfg', help='Use configuration file specified instead')
+    parser.add_argument('-f', '--config', default='tugboat/config.ini', help='Use configuration file specified instead')
     parser.add_argument('-d', '--delay', default=5, type=int, help='Specify delay s seconds between updates to each host')
 
     return parser.parse_args()
@@ -22,7 +22,12 @@ def get_arguments():
 def get_config(cmd_line_args):
     """Load configuration file from command-line args or default tugboat.cfg."""
     
-    return ConfigObj(cmd_line_args.config)
+    config = ConfigObj(cmd_line_args.config)
+    
+    if config == {}:
+        raise Exception("Empty configuration file or could not find {it}".format(it=cmd_line_args.config))
+    else:
+        return config
 
 def run():
     """Start tugboat."""
@@ -34,6 +39,7 @@ def run():
     logging.basicConfig(filename='tugboat.log', level=logging.INFO,
                         format='%(asctime)s:%(levelname)s:%(name)s:%(message)s',
                         datefmt='%m/%d/%Y %I:%M:%S %p')
+                        
     log.info('Started tugboat')
 
     puppetupdater = PuppetUpdater(args.environments, args.projects)

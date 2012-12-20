@@ -27,7 +27,7 @@ For developers:
 Configuration
 -------------
 
-Tugboat is supplied with a sample INI configuration at tugboat/tugboat.cfg.
+Tugboat is supplied with a sample INI configuration at tugboat/config.ini.
 
 Ideally, you want to set up a puppetmaster and specify more sections that match
 environment names set up on your puppetmaster. For example, if you have
