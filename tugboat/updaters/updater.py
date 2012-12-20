@@ -1,7 +1,7 @@
 import paramiko
 import logging
 
-from config import config
+from tugboat.dynamics import config
 
 
 class RemotePuppetUpdater(object):

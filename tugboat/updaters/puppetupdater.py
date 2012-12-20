@@ -17,16 +17,19 @@ TODO:
 import paramiko
 import logging
 
+from tugboat.dynamics import args, config
 from updater import RemotePuppetUpdater
-from config import config
 
 
 class PuppetUpdater(RemotePuppetUpdater):
     
-    def __init__(self, environments, projects = []):
+    def __init__(self, environments, projects):
         super(PuppetUpdater, self).__init__(environments)
         
         self.projects = projects
+        
+        if self.projects is None:
+            self.projects = []
         
         self.log = logging.getLogger(self.__module__ + '.' + self.__class__.__name__)
             
