@@ -1,3 +1,9 @@
 tugboat.log
 *.pyc
 keys/*
+
+# virtualenv
+.Python
+bin/
+include/
+lib/
