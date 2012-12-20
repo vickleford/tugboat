@@ -1,0 +1,29 @@
+Tugboat
+=======
+
+Tugboat is a continuous integration/continuous delivery tool to log into 
+puppetmasters and agents to run config updates after an automated deploy with
+another tool such as Flagship.
+
+Setup
+-----
+
+For sysadmins:
+
+    * step 1
+    
+    * step 2
+    
+For developers:
+
+    * Clone the repository
+        git@github.com:vickleford/tugboat.git
+    
+    * Set up the project in developer mode:
+        python setup.py develop
+        
+    * Run tugboat
+    
+Configuration
+-------------
+

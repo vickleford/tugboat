@@ -21,9 +21,6 @@ from updater import RemotePuppetUpdater
 from config import config
 
 
-log = logging.getLogger(__name__)
-
-
 class PuppetUpdater(RemotePuppetUpdater):
     
     def __init__(self, environments, projects = []):

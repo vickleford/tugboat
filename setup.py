@@ -1,6 +1,9 @@
 import os
 from setuptools import setup
 
+
+dependencies = [ 'paramiko', 'logging', 'argparse' ]
+
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
     
@@ -15,9 +18,9 @@ setup(
     license = '',
     keywords = 'ci cd continuous integration delivery puppet config',
     url = 'http://github.com/vickleford/tugboat',
-    packages=['tugboat'],
-    long_description=read('README'),
-    classifiers=[],
+    packages = ['tugboat'],
+    long_description = read('README'),
+    install_requires = dependencies,
     
     entry_points = {
         'console_scripts': [

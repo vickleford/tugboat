@@ -20,9 +20,6 @@ from updater import RemotePuppetUpdater
 from config import config
 
 
-log = logging.getLogger(__name__)
-
-
 class AgentUpdater(RemotePuppetUpdater):
     
     def __init__(self, environments):

@@ -5,6 +5,7 @@ from config import config
 
 
 class RemotePuppetUpdater(object):
+    
     def __init__(self, environments):
         self.envionments = envionments
         
