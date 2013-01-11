@@ -1,6 +1,7 @@
 tugboat.log
 *.pyc
 keys/*
+tugboat/config.ini
 
 # virtualenv
 .Python
