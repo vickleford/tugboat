@@ -45,8 +45,7 @@ class AgentUpdater(RemotePuppetUpdater):
             key = config[environment]['key']
             hosts = config[environment]['hosts']
             
-            # just in case there's only one
-            hosts = list(hosts)                
+            # singular hosts in config need to end with a comma (,)
                         
             for host in hosts:
                 self.log.info("Starting update on {node} in {env}".format(node=host, env=environment))
