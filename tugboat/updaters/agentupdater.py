@@ -46,7 +46,7 @@ class AgentUpdater(RemotePuppetUpdater):
             hosts = config[environment]['hosts']
             
             # just in case there's only one
-            hosts = list(hosts.split(','))
+            hosts = list(hosts)                
                         
             for host in hosts:
                 self.log.info("Starting update on {node} in {env}".format(node=host, env=environment))
@@ -55,7 +55,3 @@ class AgentUpdater(RemotePuppetUpdater):
                     self._puppetd_t()
                 finally:
                     self.ssh.close()
-            
-            
-            
-            
