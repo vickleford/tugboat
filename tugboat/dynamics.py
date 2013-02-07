@@ -21,6 +21,7 @@ def _get_arguments():
     parser.add_argument('-m', '--manifests', action='store_true', default=False, help='Apply updates to the puppet manifests directory')
     parser.add_argument('-f', '--config', default='tugboat/config.ini', help='Use configuration file specified instead')
     parser.add_argument('-d', '--delay', default=5, type=int, help='Specify delay s seconds between updates to each host')
+    parser.add_argument('-s', '--deploy-suite', help='Specify a file containing a suite of commands to run during deploy')
 
     return parser.parse_args()
         

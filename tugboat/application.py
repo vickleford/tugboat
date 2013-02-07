@@ -5,6 +5,13 @@ from updaters.agentupdater import AgentUpdater
 from updaters.puppetupdater import PuppetUpdater
 
 
+def get_suite_from_file():
+    with open(args.deploy_suite) as f:
+        deploy_suite = f.read().split('\n')
+    
+    return deploy_suite
+            
+            
 def run():
     """Start tugboat."""
         
@@ -18,7 +25,11 @@ def run():
     puppetupdater = PuppetUpdater(args.environments, args.projects)
     puppetupdater.update()
 
-    agentupdater = AgentUpdater(args.environments)
+    if args.deploy_suite:
+        deploy_suite = get_suite_from_file()
+        agentupdater = AgentUpdater(args.environments, deploy_suite)
+    else:
+        agentupdater = AgentUpdater(args.environments)
     agentupdater.update()
 
     log.info('Finished')

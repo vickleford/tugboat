@@ -22,9 +22,10 @@ from updater import RemotePuppetUpdater
 
 class AgentUpdater(RemotePuppetUpdater):
     
-    def __init__(self, environments):
+    def __init__(self, environments, suite=None):
         super(AgentUpdater, self).__init__(environments)
         self.servers = []
+        self.suite = suite
         
         self.log = logging.getLogger(self.__module__ + '.' + self.__class__.__name__)
     
@@ -36,6 +37,12 @@ class AgentUpdater(RemotePuppetUpdater):
         
         stdin, stdout, stderr = self.ssh.exec_command(puppetd_t)
         self._log_command_output(stdout, stderr)
+        
+    def _run_suite(self, suite):
+        """Run an additional suite (a list) of commands if specified."""
+        for cmd in suite:
+            stdin, stdout, stderr = self.ssh.exec_command(cmd)
+            self._log_command_output(stdout, stderr)
         
     def update(self):
         """Update each server in each environment with puppetd."""
@@ -52,5 +59,7 @@ class AgentUpdater(RemotePuppetUpdater):
                 try:
                     self._shell_in(host, user, key)
                     self._puppetd_t()
+                    if self.suite is not None:
+                        self._run_suite(self.suite)
                 finally:
                     self.ssh.close()
